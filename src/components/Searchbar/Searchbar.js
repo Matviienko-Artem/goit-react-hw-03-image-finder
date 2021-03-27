@@ -33,8 +33,8 @@ class Searchbar extends Component {
             type="text"
             value={query}
             onChange={this.handleChange}
-            // autocomplete="off"
-            // autoFocus
+            autoComplete="off"
+            autoFocus
             placeholder="Начните поиск интересующих вас изображений"
           />
         </form>
