@@ -4,7 +4,7 @@ import Searchbar from './components/Searchbar/Searchbar';
 import Button from './components/Button/Button';
 import Spinner from './components/Loader/Loader';
 import Modal from './components/Modal/Modal';
-import axios from 'axios';
+import fetchPixabay from './services/pixabay';
 import './styles.css';
 
 class App extends Component {
@@ -44,18 +44,16 @@ class App extends Component {
   };
 
   fetchImages = () => {
-    const ourKey = '20021073-06e49a3937cc05a529719264b';
     const { currentPage, searchQuery } = this.state;
+    const options = { currentPage, searchQuery };
 
     this.setState({ isLoading: true });
 
-    axios
-      .get(
-        `https://pixabay.com/api/?key=${ourKey}&q=${searchQuery}&image_type=photo&per_page=12&page=${currentPage}`,
-      )
-      .then(response => {
+    fetchPixabay
+      .fetchImages(options)
+      .then(images => {
         this.setState(prevState => ({
-          image: [...prevState.image, ...response.data.hits],
+          image: [...prevState.image, ...images],
           currentPage: prevState.currentPage + 1,
         }));
       })
